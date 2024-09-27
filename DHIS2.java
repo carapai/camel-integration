@@ -27,7 +27,6 @@ public class DHIS2 extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        System.out.println(System.getProperty("key"));
         ObjectMapper objectMapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
         module.addSerializer(Struct.class, new StructSerializer());
@@ -42,7 +41,7 @@ public class DHIS2 extends RouteBuilder {
 
         final Predicate isDataValueEvent = header(DebeziumConstants.HEADER_IDENTIFIER).endsWith(EVENT_TYPE_DV);
 
-        from("debezium-postgres:dhis40" +
+        from("debezium-postgres:{{dbName}}" +
                 "?offsetStorageFileName=~/offset-file-1.dat" +
                 "&databaseHostname=localhost" +
                 "&databaseUser={{dbUser}}" +
