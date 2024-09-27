@@ -23,9 +23,11 @@ public class DHIS2 extends RouteBuilder {
     private static final String EVENT_TYPE_TEI = ".trackedentityinstance";
     private static final String EVENT_TYPE_DV = ".datavalue";
 
+
+
     @Override
     public void configure() throws Exception {
-
+        System.out.println(System.getProperty("key"));
         ObjectMapper objectMapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
         module.addSerializer(Struct.class, new StructSerializer());
@@ -41,12 +43,12 @@ public class DHIS2 extends RouteBuilder {
         final Predicate isDataValueEvent = header(DebeziumConstants.HEADER_IDENTIFIER).endsWith(EVENT_TYPE_DV);
 
         from("debezium-postgres:dhis40" +
-                "?offsetStorageFileName=/Users/carapai/offset-file-1.dat" +
+                "?offsetStorageFileName=~/offset-file-1.dat" +
                 "&databaseHostname=localhost" +
-                "&databaseUser=carapai" +
-                "&databasePassword=Baby77@Baby771" +
-                "&databaseDbname=dhis40" +
-                "&topicPrefix=dhis40" +
+                "&databaseUser={{dbUser}}" +
+                "&databasePassword={{dbPassword}}" +
+                "&databaseDbname={{dbName}}" +
+                "&topicPrefix={{topic}}" +
                 "&pluginName=pgoutput" +
                 "&tableIncludeList=public.datavalue,public.trackedentityinstance" +
                 "&schemaIncludeList=public")
